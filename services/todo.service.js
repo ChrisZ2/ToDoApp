@@ -10,7 +10,7 @@ exports.getTodos = async function (query, page, limit) {
         limit
     };
     try {
-        let todos = await ToDo.paginate(query, options);
+        let todos = await ToDo.getAll();
         return todos;
     } catch (e) {
         throw Error('Error while Paginating Todos')

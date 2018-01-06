@@ -8,7 +8,7 @@ _this = this;
 
 //Async controller get the to do list
 
-export.getTodos = async function (req, res, next) {
+exports.getTodos = async function (req, res, next) {
 
     //check the existence of the query, if not assign a default
     let todos;
@@ -50,7 +50,7 @@ exports.updateTodo = async function (req, res, next) {
 
     //check id
     if (!req.body._id) {
-        return res.status(400).json({status: 400, message: "Id must be prsent"});
+        return res.status(400).json({status: 400, message: "Id must be present"});
     }
 
     let id = req.body._id;
@@ -59,7 +59,7 @@ exports.updateTodo = async function (req, res, next) {
 
     let todo;
     todo = {
-        _id: id,
+        id,
         title: req.body.title ? req.body.title : null,
         description: req.body.description ? req.body.description : null,
         status: req.body.status ? req.body.status : null
@@ -74,7 +74,7 @@ exports.updateTodo = async function (req, res, next) {
 };
 
 exports.removeTodo = async function(req, res, next) {
-  let id = req.body.id;
+  let id = req.body._id;
 
   try {
       let removedTodo = await TodoService.deleteTodo(id);

@@ -10,3 +10,12 @@ const ToDoController = require('../../controllers/todos.controller');
 
 router.get('/', ToDoController.getTodos);
 
+router.post('/', ToDoController.createToDo);
+
+//router.put('/', ToDoController.updateTodo());
+
+//router.delete('/:id', ToDoController.removeTodo());
+
+//Export the Router
+
+module.exports = router;

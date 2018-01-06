@@ -26,6 +26,13 @@ mongoose.connect("mongodb://zhangrz2:Zrz890612@ds135234.mlab.com:35234/chris_dat
         console.log("Error Connecting to the Mongodb Database at mlab")
     });
 
+//get the api route
+
+const api = require('./routes/api.route');
+
+
+
+
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -34,6 +41,12 @@ app.use(function (req, res, next) {
     next();
 });
 
+//use route
+//app.use('/', index);
+//app.use('/users', users);
+
+//use the api route for all routes matching /api
+app.use('/api', api);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
