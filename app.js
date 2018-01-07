@@ -5,9 +5,11 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-// const index = require('./routes/index.route');
-// const users = require('./routes/users.route');
-// const api = require('./routes/api.route')
+const index = require('./routes/index.route');
+const users = require('./routes/users.route');
+//get the api route
+
+const api = require('./routes/api.route');
 
 const bluebird = require('bluebird');
 
@@ -15,7 +17,7 @@ const bluebird = require('bluebird');
 let app = express();
 
 const mongoose = require('mongoose');
-mongoose.Promise = Promise;
+mongoose.Promise = bluebird;
 // language=HTML
 //using latest promise feature
 mongoose.connect("mongodb://zhangrz2:Zrz890612@ds135234.mlab.com:35234/chris_database", {useMongoClient: true})
@@ -26,9 +28,7 @@ mongoose.connect("mongodb://zhangrz2:Zrz890612@ds135234.mlab.com:35234/chris_dat
         console.log("Error Connecting to the Mongodb Database at mlab")
     });
 
-//get the api route
 
-const api = require('./routes/api.route');
 
 
 app.use(function (req, res, next) {
@@ -42,12 +42,11 @@ app.use(function (req, res, next) {
 //app.use('/', index);
 //app.use('/users', users);
 
-//use the api route for all routes matching /api
-app.use('/api', api);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -57,9 +56,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', index);
-// app.use('/users', users);
-// app.use('/api', api);
+//use the api route for all routes matching /api
+app.use('/api', api);
+app.use('/', index);
+app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

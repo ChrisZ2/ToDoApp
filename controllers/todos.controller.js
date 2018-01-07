@@ -12,7 +12,8 @@ exports.getTodos = async function (req, res, next) {
 
     try {
         let todos = await TodoService.getTodos({}, page, limit);
-        return res.status(200).json({status: 200, data: todos, message: "Succesfully Todos Recieved"});
+        consolt.log(todos);
+        return res.status(200).json({status: 200, data: todos, message: "Successfully Todos Recieved"});
     } catch (e) {
         return res.status(400).json({status: 400, message: e.message});
     }
@@ -27,7 +28,7 @@ exports.createTodo = async function (req, res, next) {
 
     try {
         let createdTodo = await TodoService.createTodo(todo);
-        return res.status(201).json({status: 201, data: createdTodo, message: "Succesfully Created ToDo"});
+        return res.status(201).json({status: 201, data: createdTodo, message: "Successfully Created ToDo"});
     } catch (e) {
         return res.status(400).json({status: 400, message: "Todo Creation was Unsuccesfull"});
     }
