@@ -1,5 +1,5 @@
 const express = require('express');
-const  path = require('path');
+const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -19,7 +19,7 @@ mongoose.Promise = Promise;
 // language=HTML
 //using latest promise feature
 mongoose.connect("mongodb://zhangrz2:Zrz890612@ds135234.mlab.com:35234/chris_database", {useMongoClient: true})
-    .then(()=>{
+    .then(() => {
         console.log("Successfully Connected to the Mongodb Database  mlab")
     })
     .catch(() => {
@@ -29,9 +29,6 @@ mongoose.connect("mongodb://zhangrz2:Zrz890612@ds135234.mlab.com:35234/chris_dat
 //get the api route
 
 const api = require('./routes/api.route');
-
-
-
 
 
 app.use(function (req, res, next) {
