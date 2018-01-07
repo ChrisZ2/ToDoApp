@@ -1,5 +1,5 @@
 //getting model
-const ToDo = require('../models/todo.model')
+const ToDo = require('../models/todo.model');
 
 _this = this;
 
@@ -10,10 +10,10 @@ exports.getTodos = async function (query, page, limit) {
         limit
     };
     try {
-        let todos = await ToDo.getAll();
+        let todos = await ToDo.paginate(query, options);
         return todos;
     } catch (e) {
-        throw Error('Error while Paginating Todos')
+        throw Error('Error while Paginating Todos');
     }
 };
 
@@ -30,7 +30,7 @@ exports.createTodo = async function (todo) {
         let savedTodo = await newTodo.save();
         return savedTodo;
     } catch (e) {
-        throw Error("Error while Creating Todo")
+        throw Error("Error while Creating Todo");
     }
 };
 
@@ -49,7 +49,7 @@ exports.updateTodo = async function (todo) {
         let savedTodo = await oldTodo.save();
         return savedTodo;
     } catch (e) {
-        throw Error("Error occured while Finding the Todo")
+        throw Error("Error occurred while Finding the Todo");
     }
 
 
@@ -58,13 +58,12 @@ exports.updateTodo = async function (todo) {
 exports.deleteTodo = async function (id) {
 
     try {
-        let deleted = await ToDo.remove({_id: id})
-        if (deleted.result.n !== "0") {
-            return deleted;
-        } else {
-            throw Error("Todo Could not be deleted")
+        let deleted = await ToDo.remove({_id: id});
+        if (deleted.result.n === 0) {
+            throw Error("Todo Could not be deleted");
         }
+        return deleted;
     } catch (e) {
-        throw Error("Error occurred while Deleting the Todo")
+        throw Error("Error occurred while Deleting the Todo");
     }
 };

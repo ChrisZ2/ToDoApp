@@ -1,64 +1,49 @@
-//controller accessing the service
-const TodoService = require("../services/todo.service");
+const TodoService = require('../services/todo.service');
 
-//service to the curd, but controller handle the req and the exceptions
-
-//Saving the context of this module inside the _this variable
 _this = this;
 
-//Async controller get the to do list
 
 exports.getTodos = async function (req, res, next) {
 
-    //check the existence of the query, if not assign a default
-    let todos;
-    let page = req.query.page ? req.query.page : 1;
-    let limit = req.query.limit ? req.query.limit : 10;
+    const page = req.query.page ? req.query.page : 1;
+    const limit = req.query.limit ? req.query.limit : 10;
+
+    console.log(page, limit);
 
     try {
-
-        todos = await TodoService.getTodos({}, page, limit);
-
-        return res.status(200).json({status: 200, data: todos, message: "Successfully get the todo list"});
-
+        let todos = await TodoService.getTodos({}, page, limit);
+        return res.status(200).json({status: 200, data: todos, message: "Succesfully Todos Recieved"});
     } catch (e) {
-        //Return an Error Reponse Message with code and the Error message
         return res.status(400).json({status: 400, message: e.message});
     }
-
 };
 
-exports.createToDo = async function (req, res, next) {
-    //Req.Body contains the form sumit values
-
-    let todo = {
+exports.createTodo = async function (req, res, next) {
+    const todo = {
         title: req.body.title,
         description: req.body.description,
         status: req.body.status
     };
 
     try {
-        let createToDo = await TodoService.createTodo(todo);
-        return res.status(200).json({status: 201, data: createdToDo, message: "Creation successful"});
-
+        let createdTodo = await TodoService.createTodo(todo);
+        return res.status(201).json({status: 201, data: createdTodo, message: "Succesfully Created ToDo"});
     } catch (e) {
-        return res.status(400).json({status: 400, message: "Todo creation failed"});
+        return res.status(400).json({status: 400, message: "Todo Creation was Unsuccesfull"});
     }
 };
 
 exports.updateTodo = async function (req, res, next) {
 
-    //check id
     if (!req.body._id) {
-        return res.status(400).json({status: 400, message: "Id must be present"});
+        return res.status(400).json({status: 400., message: "Id must be present"});
     }
 
-    let id = req.body._id;
+    const id = req.body._id;
 
     console.log(req.body);
 
-    let todo;
-    todo = {
+    let todo = {
         id,
         title: req.body.title ? req.body.title : null,
         description: req.body.description ? req.body.description : null,
@@ -66,21 +51,22 @@ exports.updateTodo = async function (req, res, next) {
     };
 
     try {
-        let updatedToDo = await TodoService.updateTodo(todo);
-        return res.status(200).json({status: 200, data: updatedToDo, message: "Updated successfully"});
+        let updatedTodo = await TodoService.updateTodo(todo);
+        return res.status(200).json({status: 200, data: updatedTodo, message: "Succesfully Updated Tod"});
     } catch (e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({status: 400., message: e.message});
     }
 };
 
-exports.removeTodo = async function(req, res, next) {
-  let id = req.body._id;
+exports.removeTodo = async function (req, res, next) {
 
-  try {
-      let removedTodo = await TodoService.deleteTodo(id);
-      return res.status(204).json({status: 204, data: removedTodo, message: "remove successful"});
-  }catch (e) {
-      return res.status(400).json({status: 400, message: "remove unsuccessful"});
-  }
+    const id = req.params.id;
+
+    try {
+        let deleted = await TodoService.deleteTodo(id);
+        return res.status(204).json({status: 204, message: "Succesfully Todo Deleted"});
+    } catch (e) {
+        return res.status(400).json({status: 400, message: e.message});
+    }
 
 };
